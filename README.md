@@ -1,1 +1,2 @@
-chess
+Chess
+Python Chess Game
