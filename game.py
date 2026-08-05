@@ -57,22 +57,22 @@ class Game:
                     if mouse_x >= 100 and mouse_x <= 900 and mouse_y >= 100 and mouse_y <= 900:
                         square_x, square_y = mouse_x // 100 - 1, mouse_y // 100 - 1
                         
-                        if self.start_square is None and ((self.board.state[square_y][square_x] > 0 and self.current == "White") or (self.board.state[square_y][square_x] < 0 and self.current == "Black")):
-                            self.start_square = [square_x, square_y]
-                        elif self.start_square is not None and (square_x != self.start_square[1] or square_y != self.start_square[0]):
-                            self.end_square = [square_x, square_y]
+                        # if self.start_square is None and ((self.board.state[square_y][square_x] > 0 and self.current == "White") or (self.board.state[square_y][square_x] < 0 and self.current == "Black")):
+                        #     self.start_square = [square_x, square_y]
+                        # elif self.start_square is not None and (square_x != self.start_square[1] or square_y != self.start_square[0]):
+                        #     self.end_square = [square_x, square_y]
 
-                            # normal piece movement
-                            if (self.board.state[self.start_square[1]][self.start_square[0]] * self.board.state[self.end_square[1]][self.end_square[0]]) <= 0:
+                        #     # normal piece movement
+                        #     if (self.board.state[self.start_square[1]][self.start_square[0]] * self.board.state[self.end_square[1]][self.end_square[0]]) <= 0:
 
-                                self.board.state[self.end_square[1]][self.end_square[0]] = self.board.state[self.start_square[1]][self.start_square[0]]
-                                self.board.state[self.start_square[1]][self.start_square[0]] = 0
+                        #         self.board.state[self.end_square[1]][self.end_square[0]] = self.board.state[self.start_square[1]][self.start_square[0]]
+                        #         self.board.state[self.start_square[1]][self.start_square[0]] = 0
                                 
-                                self.start_square = None
-                                self.current = "White" if self.current == "Black" else "Black"
+                        #         self.start_square = None
+                        #         self.current = "White" if self.current == "Black" else "Black"
                                 
-                            elif self.board.state[self.end_square[1]][self.end_square[0]] != 0:
-                                self.start_square = [self.end_square[0], self.end_square[1]]
+                        #     elif self.board.state[self.end_square[1]][self.end_square[0]] != 0:
+                        #         self.start_square = [self.end_square[0], self.end_square[1]]
 
                     else:
                         self.start_square = None
@@ -99,6 +99,10 @@ class Game:
 
         if self.start_square is not None:
             pygame.draw.rect(self.screen, "#0A2E13", (self.start_square[0] * 100 + 100, self.start_square[1] * 100 + 100, self.square_size, self.square_size), 4)
+
+        legal_moves = self.board.get_legal_moves()
+        for position in legal_moves:
+            pygame.draw.circle(self.screen, "#272727", (position[1] * 100 + 150, position[0] * 100 + 150), 15, 3)
 
     def run(self):
         while self.running:
